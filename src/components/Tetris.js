@@ -1,12 +1,14 @@
 import React, { useState } from "react"
-// style components
+import { createStage } from "../gameHelpers"
+
+// Style components
 import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetris"
 
-//custom hooks
+// Custom hooks
 import { usePlayer } from "../hooks/usePlayer"
 import { useStage } from "../hooks/useStage"
 
-//Components
+// Components
 import Stage from "./Stage"
 import Display from "./Display"
 import StartButton from "./StartButton"
@@ -19,8 +21,23 @@ const Tetris = () => {
 	const [stage, setStage] = useStage(player)
 
 	console.log("re-render")
+
+	const movePlayer = (dir) => {}
+
+	const startGame = () => {}
+
+	const drop = () => {}
+
+	const dropPlayer = () => {}
+
+	const move = ({ keyCode }) => {}
+
 	return (
-		<StyledTetrisWrapper>
+		<StyledTetrisWrapper
+			role="button"
+			tabIndex="0"
+			onKeyDown={(event) => move(event)}
+		>
 			<StyledTetris>
 				<Stage stage={stage} />
 				<aside>
