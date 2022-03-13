@@ -7,6 +7,7 @@ import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetris"
 // Custom hooks
 import { usePlayer } from "../hooks/usePlayer"
 import { useStage } from "../hooks/useStage"
+import { useGameStatus } from "../hooks/useGameStatus"
 
 // Components
 import Stage from "./Stage"
@@ -17,39 +18,62 @@ const Tetris = () => {
 	const [dropTime, setDropTime] = useState(null)
 	const [gameOver, setGameOver] = useState(false)
 
-	const [player, updatePlayerPosition, resetPlayer] = usePlayer()
-	const [stage, setStage] = useStage(player, resetPlayer)
+	const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer()
+	const [stage, setStage, rowsCleared] = useStage(player, resetPlayer)
+	const [score, setScore, rows, setRows, level, setLevel] =
+		useGameStatus(rowsCleared)
 
 	console.log("re-render")
 
 	const movePlayer = (dir) => {
 		if (!checkCollision(player, stage, { x: dir, y: 0 })) {
-			updatePlayerPosition({ x: dir, y: 0 })
+			updatePlayerPos({ x: dir, y: 0 })
+		}
+	}
+
+	const keyUp = ({ keyCode }) => {
+		if (!gameOver) {
+			// Activate the interval again when user releases down arrow.
+			if (keyCode === 40) {
+				setDropTime(1000 / (level + 1))
+			}
 		}
 	}
 
 	const startGame = () => {
-		// reset game
+		// Reset everything
 		setStage(createStage())
+		setDropTime(1000)
 		resetPlayer()
+		setScore(0)
+		setLevel(0)
+		setRows(0)
 		setGameOver(false)
 	}
 
 	const drop = () => {
+		// Increase level when player has cleared 10 rows
+		if (rows > (level + 1) * 10) {
+			setLevel((prev) => prev + 1)
+			// Also increase speed
+			setDropTime(1000 / (level + 1) + 200)
+		}
+
 		if (!checkCollision(player, stage, { x: 0, y: 1 })) {
-			updatePlayerPosition({ x: 0, y: 1, collided: false })
+			updatePlayerPos({ x: 0, y: 1, collided: false })
 		} else {
-			// Game Over
+			// Game over!
 			if (player.pos.y < 1) {
 				console.log("GAME OVER!!!")
 				setGameOver(true)
 				setDropTime(null)
 			}
-			updatePlayerPosition({ x: 0, y: 0, collided: true })
+			updatePlayerPos({ x: 0, y: 0, collided: true })
 		}
 	}
 
 	const dropPlayer = () => {
+		setDropTime(null)
 		drop()
 	}
 
