@@ -8,6 +8,7 @@ import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetris"
 import { usePlayer } from "../hooks/usePlayer"
 import { useStage } from "../hooks/useStage"
 import { useGameStatus } from "../hooks/useGameStatus"
+import { useInterval } from "../hooks/useInterval"
 
 // Components
 import Stage from "./Stage"
@@ -76,6 +77,10 @@ const Tetris = () => {
 		setDropTime(null)
 		drop()
 	}
+
+	useInterval(() => {
+		drop()
+	}, dropTime)
 
 	const move = ({ keyCode }) => {
 		if (!gameOver) {
