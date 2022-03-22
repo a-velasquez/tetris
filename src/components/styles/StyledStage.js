@@ -24,10 +24,10 @@ export const StyledStage = styled.div`
 	}
 
 	@media (max-width: 390px) {
-		display: grid;
-		margin: 40px auto;
+		// display: grid;
+		margin: auto;
 		max-width: 45vw;
-		max-height: 75vw;
+		max-height: 75%;
 		grid-gap: 1px;
 		border: 2px solid #333;
 	}

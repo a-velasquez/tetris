@@ -21,6 +21,6 @@ export const StyledStartButton = styled.button`
 		justify-content: center;
 		width: 100%;
 		font-size: 0.2rem;
-		margin: 10px 10px 10px 80px;
+		margin: 10px 10px 10px 60px;
 	}
 `
