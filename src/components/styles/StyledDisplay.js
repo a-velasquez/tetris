@@ -14,4 +14,13 @@ export const StyledDisplay = styled.div`
 	background: #000;
 	font-family: Pixel, Arial, Helvetica, sans-serif;
 	font-size: 0.8rem;
+
+	@media (max-width: 768px) {
+		// margin: 20px 10px 20px 50px;
+		margin: 20px auto 20px 80px;
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		font-size: 0.2rem;
+	}
 `
